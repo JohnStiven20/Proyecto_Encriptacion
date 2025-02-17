@@ -63,6 +63,8 @@ public class ControladorEncriptado implements Initializable {
 
     @FXML
     public void radioButton() {
+        limpiarCampos(); // Restablece los campos cada vez que se cambia de opción
+
         if (radioButtonBCrypt.isSelected()) {
             hBoxCampoBCrypt.setVisible(true);
             hBoxCampoCriptofrafia.setVisible(false);
@@ -178,12 +180,21 @@ public class ControladorEncriptado implements Initializable {
             return;
         }
 
-        // Verificar si la clave ingresada coincide con la clave encriptada en BCrypt
         if (BCrypt.checkpw(claveIngresada, claveBCryptGuardada)) {
             mostrarMensaje("Clave correcta.");
         } else {
             mostrarMensaje("Clave incorrecta.");
         }
+    }
+
+    /**
+     * Método para limpiar todos los campos cuando se cambia entre Criptografía Simétrica y BCrypt.
+     */
+    private void limpiarCampos() {
+        textAreaEncriptado.clear();
+        textAreaDesncriptado.clear();
+        labelClaveGuardada.setText("Clave guardada:");
+        claveBCryptGuardada = null;
     }
 
     private SecretKey generarClaveDesdeTexto(String claveTexto, int longitud) throws Exception {
